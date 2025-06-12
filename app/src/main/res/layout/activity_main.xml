@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/SaveBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save" />
+
+        <RadioGroup
+            android:id="@+id/colorGrp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/RedBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Red"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+            <RadioButton
+                android:id="@+id/YellowBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Yellow"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+            <RadioButton
+                android:id="@+id/BlueBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Blue"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/UndoBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Undo"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+        <Button
+            android:id="@+id/ClearBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clear"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <View
+            android:id="@+id/PaintView"
+            class="com.example.painttool.PaintView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+    </LinearLayout>
+</LinearLayout>
