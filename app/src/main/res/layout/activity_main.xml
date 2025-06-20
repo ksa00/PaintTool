@@ -6,71 +6,112 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity">
 
+    <!-- 操作ボタン -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:gravity="center_horizontal">
 
         <Button
             android:id="@+id/SaveBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save" />
-
-        <RadioGroup
-            android:id="@+id/colorGrp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/RedBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Red"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
-
-            <RadioButton
-                android:id="@+id/YellowBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Yellow"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
-
-            <RadioButton
-                android:id="@+id/BlueBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Blue"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
-        </RadioGroup>
+            android:text="Undo" />
 
         <Button
-            android:id="@+id/UndoBtn"
+            android:id="@+id/RedoBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Undo"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            android:text="Redo" />
 
         <Button
             android:id="@+id/ClearBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Clear"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            android:text="Clear" />
+
+        <Button
+            android:id="@+id/colorPickerBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pick Color" />
+
     </LinearLayout>
 
+    <!-- カラーパレット -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <View
-            android:id="@+id/PaintView"
-            class="com.example.painttool.PaintView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:padding="8dp">
 
+        <GridLayout
+            android:id="@+id/colorPalette"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:columnCount="5"
+            android:rowCount="1"
+            android:alignmentMode="alignMargins"
+            android:padding="4dp">
+
+            <View
+                android:id="@+id/colorRed"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="#F44336"
+                android:layout_margin="4dp" />
+
+            <View
+                android:id="@+id/colorGreen"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="#4CAF50"
+                android:layout_margin="4dp" />
+
+            <View
+                android:id="@+id/colorBlue"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="#2196F3"
+                android:layout_margin="4dp" />
+
+            <View
+                android:id="@+id/colorYellow"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="#FFEB3B"
+                android:layout_margin="4dp" />
+
+            <View
+                android:id="@+id/colorBlack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="#000000"
+                android:layout_margin="4dp" />
+        </GridLayout>
+
+        <ImageButton
+            android:id="@+id/EraserBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Eraser"
+            android:src="@drawable/eraser" />
     </LinearLayout>
+
+    <!-- 描画エリア -->
+    <com.example.painttool.PaintView
+        android:id="@+id/PaintView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#FFFFFF" />
 </LinearLayout>

@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -20,14 +21,18 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class PaintView extends View {
     private Context _context;
-    private ArrayList<Line> lines=new ArrayList<>();
+    private ArrayList<Line> lines = new ArrayList<>();
+    private ArrayList<Line> redoLines = new ArrayList<>();
+    private Line currentLine;
+    private int currentColor = Color.BLACK;
+    private boolean isEraser = false;
+    private final int eraserColor = Color.WHITE;
 
     public PaintView(Context context){
         super(context);
@@ -38,7 +43,7 @@ public class PaintView extends View {
         _context=context;
     }
 
-  //描画メソッドの上書き
+    //描画メソッドの上書き
     //この関数はシステムコントロール専用です
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
@@ -49,22 +54,25 @@ public class PaintView extends View {
         Paint paint=new Paint();
         paint.setAntiAlias(true);
         //全ての線を描画
-        for(){
+        for(Line line : lines){
             //線の色情報を取得（読み込み）
+            paint.setColor(line.getColor());
             //線の幅を読み込み(デフォルトも可能です)
+            paint.setStrokeWidth(10);
             //線クラスから点情報を取得して描画
-            for(){
+            ArrayList<Point> pts = line.getPoints();
+            for(int i = 0; i < pts.size() - 1; i++){
                 //現在の点から次の点情報までの線を引く
-                canvas.drawLines(start.x,start.y,end.x,end.y);
+                Point start = pts.get(i);
+                Point end = pts.get(i + 1);
+                canvas.drawLine(start.x, start.y, end.x, end.y, paint);
             }
         }
-
     }
-
 
     //タッチイベントの実装
     @Override
-    public boolean onTouchEvent( MotionEvent event){
+    public boolean onTouchEvent(MotionEvent event){
         int x,y;
         switch(event.getAction()){
             case MotionEvent.ACTION_DOWN:
@@ -72,13 +80,19 @@ public class PaintView extends View {
                 y=(int)event.getY();
                 //線ー点の集合ータップ辞典の押したイベントは線の始点
                 //線クラス新規作成して始点情報として保存
+                currentLine = new Line(isEraser ? eraserColor : currentColor);
+                currentLine.addPoint(new Point(x, y));
                 //作成した線情報をリスト（コンテナ）に追加
-
+                lines.add(currentLine);
+                redoLines.clear(); // 新しい線を描いたら redo は無効化
                 break;
             case MotionEvent.ACTION_MOVE:
                 x=(int)event.getX();
                 y=(int)event.getY();
                 //線クラスに点情報（座標）を追加
+                if (currentLine != null) {
+                    currentLine.addPoint(new Point(x, y));
+                }
                 break;
             case MotionEvent.ACTION_UP:
                 break;
@@ -92,17 +106,44 @@ public class PaintView extends View {
     //取り消し機能の実装
     public void undo(){
         //最後に書かれた線の消去
+        if (!lines.isEmpty()) {
+            Line last = lines.remove(lines.size() - 1);
+            redoLines.add(last);
+        }
         //再描画
+        invalidate();
     }
+
+    //やり直し機能の実装
+    public void redo(){
+        if (!redoLines.isEmpty()) {
+            Line restored = redoLines.remove(redoLines.size() - 1);
+            lines.add(restored);
+        }
+        invalidate();
+    }
+
     //画面消去機能実装
     public void clear(){
         //全ての線情報の消去
+        lines.clear();
+        redoLines.clear();
         //再描画
+        invalidate();
     }
+
     //線の色を更新するセッタ
-    public void setColor(Color color){
+    public void setColor(int color){
         //色情報を線に設定
+        currentColor = color;
+        isEraser = false; // 色を選んだら消しゴム解除
     }
+
+    //消しゴムモードの切り替え
+    public void setEraserMode(boolean eraser){
+        isEraser = eraser;
+    }
+
     //保存機能の実装
     public void SaveFiles(){
         //bitmapオブジェクトの初期化
@@ -110,10 +151,11 @@ public class PaintView extends View {
         //描画対象のキャンバスにbitmap描画情報を設定
         Canvas bitmapCanvas=new Canvas(bitmap);
         //全ての線情報を今回用意したCanvasに描画＝onDraw()と処理が被ります
+        this.draw(bitmapCanvas);
 
         //MediaStoreAPIを使用
         try{
-            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.Q){
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
                 //ギャラリロールへの画像登録
                 ContentResolver resolver=_context.getContentResolver();
                 ContentValues values=new ContentValues();
