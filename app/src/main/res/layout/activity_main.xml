@@ -12,12 +12,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:orientation="horizontal"
-        android:padding="8dp"
-        android:gravity="center_horizontal">
+
+        >
 
         <Button
             android:id="@+id/SaveBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save" />
+
+        <Button
+            android:id="@+id/UndoBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Undo" />
@@ -33,83 +40,87 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Clear" />
-
     </LinearLayout>
 
     <!-- カラーパレット -->
     <LinearLayout
+        android:id="@+id/colorPalette"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:padding="8dp">
+        android:gravity="center"
+        android:orientation="horizontal">
 
-        <GridLayout
-            android:id="@+id/colorPalette"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:columnCount="7"
-            android:rowCount="1"
-            android:alignmentMode="alignMargins"
-            android:padding="4dp">
+        <!-- Color Views with tags -->
+        <View
+            android:id="@+id/colorRed"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/circle_shape"
+            android:backgroundTint="#F44336"
+            android:contentDescription="Red color"
+            android:tag="#F44336" />
 
-            <View
-                android:id="@+id/colorRed"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="#F44336"
-                android:layout_margin="4dp" />
+        <View
+            android:id="@+id/colorGreen"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/circle_shape"
+            android:backgroundTint="#4CAF50"
+            android:contentDescription="Green color"
+            android:tag="#4CAF50" />
 
-            <View
-                android:id="@+id/colorGreen"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="#4CAF50"
-                android:layout_margin="4dp" />
+        <View
+            android:id="@+id/colorBlue"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/circle_shape"
+            android:backgroundTint="#2196F3"
+            android:contentDescription="Blue color"
+            android:tag="#2196F3" />
 
-            <View
-                android:id="@+id/colorBlue"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="#2196F3"
-                android:layout_margin="4dp" />
+        <View
+            android:id="@+id/colorYellow"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/circle_shape"
+            android:backgroundTint="#FFEB3B"
+            android:contentDescription="Yellow color"
+            android:tag="#FFEB3B" />
 
-            <View
-                android:id="@+id/colorYellow"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="#FFEB3B"
-                android:layout_margin="4dp" />
+        <View
+            android:id="@+id/colorBlack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/circle_shape"
+            android:backgroundTint="#000000"
+            android:contentDescription="Black color"
+            android:tag="#000000" />
 
-            <View
-                android:id="@+id/colorBlack"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="#000000"
-                android:layout_margin="4dp" />
+        <!-- Eraser and Palette Buttons -->
+        <ImageButton
+            android:id="@+id/PaletteBtn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="4dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="Palette"
+            android:scaleType="fitCenter"
+            android:src="@drawable/palette" />
 
-            <ImageButton
-                android:id="@+id/EraserBtn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_margin="4dp"
-                android:background="@android:color/transparent"
-                android:contentDescription="Eraser"
-                android:scaleType="fitCenter"
-                android:src="@drawable/eraser" />
-
-            <ImageButton
-                android:id="@+id/PaletteBtn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_margin="4dp"
-                android:background="@android:color/transparent"
-                android:contentDescription="Palette"
-                android:scaleType="fitCenter"
-                android:src="@drawable/palette" />
-
-        </GridLayout>
-
+        <ImageButton
+            android:id="@+id/EraserBtn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="4dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="Eraser"
+            android:scaleType="fitCenter"
+            android:src="@drawable/eraser" />
 
 
     </LinearLayout>
@@ -120,5 +131,4 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
-
 </LinearLayout>

@@ -3,6 +3,7 @@ package com.example.painttool;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
@@ -10,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
 import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,40 +32,31 @@ public class MainActivity extends AppCompatActivity {
         // PaintViewの取得
         paintView = findViewById(R.id.PaintView);
 
-        // カラーパレットの色選択処理（個別に記述）
-        View colorRed = findViewById(R.id.colorRed);
-        colorRed.setOnClickListener(v -> {
-            defaultColor = Color.parseColor("#F44336");
-            paintView.setColor(defaultColor);
-        });
+        // カラー選択ビューのID一覧
+        int[] colorViewIds = {
+                R.id.colorRed, R.id.colorGreen, R.id.colorBlue,
+                R.id.colorYellow, R.id.colorBlack
+        };
 
-        View colorGreen = findViewById(R.id.colorGreen);
-        colorGreen.setOnClickListener(v -> {
-            defaultColor = Color.parseColor("#4CAF50");
-            paintView.setColor(defaultColor);
-        });
+        // 共通のカラー選択リスナー
+        View.OnClickListener colorClickListener = v -> {
+            Object tag = v.getTag();
+            if (tag != null) {
+                String colorHex = tag.toString();
+                defaultColor = Color.parseColor(colorHex);
+                paintView.setColor(defaultColor);
+            }
+        };
 
-        View colorBlue = findViewById(R.id.colorBlue);
-        colorBlue.setOnClickListener(v -> {
-            defaultColor = Color.parseColor("#2196F3");
-            paintView.setColor(defaultColor);
-        });
-
-        View colorYellow = findViewById(R.id.colorYellow);
-        colorYellow.setOnClickListener(v -> {
-            defaultColor = Color.parseColor("#FFEB3B");
-            paintView.setColor(defaultColor);
-        });
-
-        View colorBlack = findViewById(R.id.colorBlack);
-        colorBlack.setOnClickListener(v -> {
-            defaultColor = Color.parseColor("#000000");
-            paintView.setColor(defaultColor);
-        });
+        // 各カラーViewにリスナーを設定
+        for (int id : colorViewIds) {
+            View colorView = findViewById(id);
+            colorView.setOnClickListener(colorClickListener);
+        }
 
         // カラーピッカーの呼び出し
-        Button colorPickerBtn = findViewById(R.id.colorPickerBtn);
-        colorPickerBtn.setOnClickListener(v -> {
+        ImageButton paletteBtn = findViewById(R.id.PaletteBtn);
+        paletteBtn.setOnClickListener(v -> {
             AmbilWarnaDialog dialog = new AmbilWarnaDialog(this, defaultColor, new AmbilWarnaDialog.OnAmbilWarnaListener() {
                 @Override
                 public void onOk(AmbilWarnaDialog dialog, int color) {
@@ -82,19 +73,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // 消しゴムボタン
-        Button eraserBtn = findViewById(R.id.EraserBtn);
+        ImageButton eraserBtn = findViewById(R.id.EraserBtn);
         eraserBtn.setOnClickListener(v -> paintView.setEraserMode(true));
 
-        // Undoボタン
+        // 操作ボタン
         findViewById(R.id.UndoBtn).setOnClickListener(v -> paintView.undo());
-
-        // Redoボタン
         findViewById(R.id.RedoBtn).setOnClickListener(v -> paintView.redo());
-
-        // Clearボタン
         findViewById(R.id.ClearBtn).setOnClickListener(v -> paintView.clear());
-
-        // Saveボタン
         findViewById(R.id.SaveBtn).setOnClickListener(v -> paintView.SaveFiles());
     }
 }
